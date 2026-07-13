@@ -146,11 +146,21 @@ def train(cfg: Config, log_path: Path | None = None) -> tuple[ActorCritic, list[
             action, value = model.act(obs_t)
             next_obs, reward, terminated, truncated, info = env.step(action)
 
+            # Time-limit handling. A truncation at max_steps is not a true
+            # terminal state, so bootstrap V(s_final) into the reward and close
+            # the episode for advantage estimation. A genuine termination
+            # (energy or overload death) is left un-bootstrapped.
+            step_reward = reward
+            if truncated and not terminated:
+                with torch.no_grad():
+                    _, boot_value = model.forward(torch.as_tensor(next_obs, dtype=torch.float32))
+                step_reward = reward + cfg.gamma * float(boot_value)
+
             obs_buf.append(obs_t)
             act_buf.append(action)
-            rew_buf.append(reward)
+            rew_buf.append(step_reward)
             val_buf.append(value)
-            done_buf.append(1.0 if terminated else 0.0)
+            done_buf.append(1.0 if (terminated or truncated) else 0.0)
 
             ep_return += reward
             ep_len += 1
