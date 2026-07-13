@@ -1,0 +1,228 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    5,
+    42
+  ],
+  "n_seeds": 5,
+  "total_env_steps": 600000,
+  "baseline_pure_awake_return": {
+    "mean": -97.634,
+    "sd": 0.779,
+    "min": -98.425,
+    "max": -96.859,
+    "values": [
+      -96.872,
+      -96.859,
+      -97.594,
+      -98.425,
+      -98.419
+    ]
+  },
+  "trained_eval_return": {
+    "mean": -77.106,
+    "sd": 50.909,
+    "min": -102.181,
+    "max": 13.884,
+    "values": [
+      -102.181,
+      13.884,
+      -97.044,
+      -98.625,
+      -101.566
+    ]
+  },
+  "trained_eval_length": {
+    "mean": 121.6,
+    "sd": 109.995,
+    "min": 18.0,
+    "max": 300.0,
+    "values": [
+      148.0,
+      300.0,
+      18.0,
+      74.0,
+      68.0
+    ]
+  },
+  "tail_mean_return": {
+    "mean": -76.71,
+    "sd": 16.133,
+    "min": -91.137,
+    "max": -50.172,
+    "values": [
+      -81.064,
+      -50.172,
+      -91.137,
+      -74.278,
+      -86.9
+    ]
+  },
+  "mean_overload": {
+    "mean": 0.563,
+    "sd": 0.095,
+    "min": 0.455,
+    "max": 0.714,
+    "values": [
+      0.539,
+      0.455,
+      0.714,
+      0.535,
+      0.57
+    ]
+  },
+  "mean_recall": {
+    "mean": 0.98,
+    "sd": 0.015,
+    "min": 0.958,
+    "max": 0.998,
+    "values": [
+      0.998,
+      0.988,
+      0.958,
+      0.981,
+      0.976
+    ]
+  },
+  "action_AWAKE": {
+    "mean": 69.6,
+    "sd": 58.145,
+    "min": 16.0,
+    "max": 164.0,
+    "values": [
+      84.0,
+      164.0,
+      16.0,
+      44.0,
+      40.0
+    ]
+  },
+  "action_NREM": {
+    "mean": 30.8,
+    "sd": 33.722,
+    "min": 0.0,
+    "max": 86.0,
+    "values": [
+      38.0,
+      86.0,
+      0.0,
+      16.0,
+      14.0
+    ]
+  },
+  "action_REM": {
+    "mean": 21.2,
+    "sd": 18.199,
+    "min": 2.0,
+    "max": 50.0,
+    "values": [
+      26.0,
+      50.0,
+      2.0,
+      14.0,
+      14.0
+    ]
+  },
+  "terminal_causes": {
+    "1": "energy",
+    "2": "survived",
+    "3": "energy",
+    "5": "energy",
+    "42": "energy"
+  },
+  "wall_time_seconds": 5512.2,
+  "per_seed": [
+    {
+      "seed": 1,
+      "baseline_pure_awake_return": -96.872,
+      "trained_eval_return": -102.181,
+      "trained_eval_length": 148,
+      "trained_eval_terminal_cause": "energy",
+      "tail_mean_return": -81.064,
+      "trained_action_counts": {
+        "AWAKE": 84,
+        "NREM": 38,
+        "REM": 26
+      },
+      "mean_overload": 0.539,
+      "mean_recall": 0.998,
+      "episodes_trained": 8084,
+      "wall_time_seconds": 836.6,
+      "trained_policy_cycles_passed": false
+    },
+    {
+      "seed": 2,
+      "baseline_pure_awake_return": -96.859,
+      "trained_eval_return": 13.884,
+      "trained_eval_length": 300,
+      "trained_eval_terminal_cause": "survived",
+      "tail_mean_return": -50.172,
+      "trained_action_counts": {
+        "AWAKE": 164,
+        "NREM": 86,
+        "REM": 50
+      },
+      "mean_overload": 0.455,
+      "mean_recall": 0.988,
+      "episodes_trained": 5719,
+      "wall_time_seconds": 1230.2,
+      "trained_policy_cycles_passed": true
+    },
+    {
+      "seed": 3,
+      "baseline_pure_awake_return": -97.594,
+      "trained_eval_return": -97.044,
+      "trained_eval_length": 18,
+      "trained_eval_terminal_cause": "energy",
+      "tail_mean_return": -91.137,
+      "trained_action_counts": {
+        "AWAKE": 16,
+        "NREM": 0,
+        "REM": 2
+      },
+      "mean_overload": 0.714,
+      "mean_recall": 0.958,
+      "episodes_trained": 10722,
+      "wall_time_seconds": 1418.9,
+      "trained_policy_cycles_passed": false
+    },
+    {
+      "seed": 5,
+      "baseline_pure_awake_return": -98.425,
+      "trained_eval_return": -98.625,
+      "trained_eval_length": 74,
+      "trained_eval_terminal_cause": "energy",
+      "tail_mean_return": -74.278,
+      "trained_action_counts": {
+        "AWAKE": 44,
+        "NREM": 16,
+        "REM": 14
+      },
+      "mean_overload": 0.535,
+      "mean_recall": 0.981,
+      "episodes_trained": 8213,
+      "wall_time_seconds": 1105.9,
+      "trained_policy_cycles_passed": false
+    },
+    {
+      "seed": 42,
+      "baseline_pure_awake_return": -98.419,
+      "trained_eval_return": -101.566,
+      "trained_eval_length": 68,
+      "trained_eval_terminal_cause": "energy",
+      "tail_mean_return": -86.9,
+      "trained_action_counts": {
+        "AWAKE": 40,
+        "NREM": 14,
+        "REM": 14
+      },
+      "mean_overload": 0.57,
+      "mean_recall": 0.976,
+      "episodes_trained": 9194,
+      "wall_time_seconds": 920.6,
+      "trained_policy_cycles_passed": false
+    }
+  ]
+}
