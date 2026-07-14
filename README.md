@@ -54,6 +54,8 @@ Five independent seeds (1, 2, 3, 5, 42), each trained for 600,000 environment st
 | Action count NREM | 30.80 +/- 33.72 |
 | Action count REM | 21.20 +/- 18.20 |
 
+The tail mean return of -76.71 +/- 16.13, the mean episode return over the last 15% of training, is the headline statistic. It exceeds that seed's own pure waking baseline in all five seeds, with per seed tail means running from -50.17 to -91.14 against per seed baselines of about -97 to -98. The single greedy evaluation rollout is a much weaker instrument and should not be read as a second confirmation of the same fact. Its mean of -77.11 +/- 50.91 is dominated by seed 2, the one seed that survives the horizon and returns +13.88. The median greedy evaluation return across the five seeds is -98.63, which is indistinguishable from the baseline. The rollout is a single sample and inherits the full variance of early truncation, so its mean is not a stable estimate of policy quality.
+
 ### Per seed
 
 | Seed | Episodes | Baseline | Eval return | Length | Terminal | Tail mean | Overload | Recall | A / N / R |
