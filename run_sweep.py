@@ -29,7 +29,10 @@ from environment import ACTION_NAMES, AWAKE, NREM, REM, Config
 import run_experiment as R
 
 SEEDS = [1, 2, 3, 5, 42]
-OUT = Path.home() / "Desktop" / "Cric_RL_Sleep_Model_Sweep_Results"
+ROOT = Path(__file__).resolve().parent
+RESULTS = ROOT / "results"
+MODELS = ROOT / "models"
+FIGURES = ROOT / "figures"
 
 BAND_BLUE = "#6BAED6"
 MEAN_BLUE = "#08519C"
@@ -301,34 +304,32 @@ def write_readme(summary: dict, rep_seed: int, path: Path) -> None:
 
 def main() -> None:
     cfg = Config()
-    models_dir = OUT / "models"
-    figures_dir = OUT / "figures"
-    for d in (OUT, models_dir, figures_dir):
+    for d in (RESULTS, MODELS, FIGURES):
         d.mkdir(parents=True, exist_ok=True)
-    print(f"Output folder: {OUT}", flush=True)
+    print(f"Results folder: {RESULTS}", flush=True)
 
-    results = [run_one_seed(s, cfg, models_dir) for s in SEEDS]
+    results = [run_one_seed(s, cfg, MODELS) for s in SEEDS]
     per_seed = [r["metrics"] for r in results]
 
     all_logs = pd.concat([r["log"] for r in results], ignore_index=True)
-    all_logs.to_csv(OUT / "all_seeds_training_log.csv", index=False)
+    all_logs.to_csv(RESULTS / "all_seeds_training_log.csv", index=False)
 
     curve = aggregate_learning_curve([r["log"] for r in results], cfg.total_env_steps)
-    curve.to_csv(OUT / "learning_curve_aggregate.csv", index=False)
+    curve.to_csv(RESULTS / "learning_curve_aggregate.csv", index=False)
 
     summary = aggregate_metrics(per_seed, cfg.total_env_steps)
     summary["per_seed"] = per_seed
-    (OUT / "metrics_aggregated.json").write_text(json.dumps(summary, indent=2))
+    (RESULTS / "metrics_aggregated.json").write_text(json.dumps(summary, indent=2))
 
     rep_seed = _representative_seed(per_seed)
     rep = next(r for r in results if r["metrics"]["seed"] == rep_seed)
 
     plot_learning_curve(curve, summary["baseline_pure_awake_return"]["mean"],
-                        figures_dir / "learning_curve.png")
-    plot_policy_map(rep["model"], rep["cfg"], figures_dir / "policy_map.png")
-    plot_hypnogram(rep["traj"], rep["cfg"], figures_dir / "hypnogram.png")
+                        FIGURES / "learning_curve.png")
+    plot_policy_map(rep["model"], rep["cfg"], FIGURES / "policy_map.png")
+    plot_hypnogram(rep["traj"], rep["cfg"], FIGURES / "hypnogram.png")
 
-    write_readme(summary, rep_seed, OUT / "README.md")
+    write_readme(summary, rep_seed, RESULTS / "README.md")
 
     print("\n=== aggregate (mean +/- sd over seeds) ===", flush=True)
     for k in ("baseline_pure_awake_return", "trained_eval_return", "tail_mean_return",
@@ -336,10 +337,10 @@ def main() -> None:
         s = summary[k]
         print(f"  {k:32s}: {s['mean']:8.2f} +/- {s['sd']:.2f}  (min {s['min']}, max {s['max']})",
               flush=True)
-    print(f"\nDone. Everything in {OUT}", flush=True)
+    print(f"\nDone. Results in {RESULTS}, models in {MODELS}, figures in {FIGURES}", flush=True)
 
     if sys.platform == "darwin":
-        subprocess.run(["open", str(OUT)])
+        subprocess.run(["open", str(RESULTS)])
 
 
 if __name__ == "__main__":

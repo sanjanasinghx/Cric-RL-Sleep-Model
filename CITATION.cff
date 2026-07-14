@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite the paper below."
+title: "Emergence of a Three State Sleep Cycle in a Reinforcement Learning Agent with a Hopfield Memory and a Finite Energy Budget"
+type: software
+authors:
+  - given-names: "Sanjana"
+    family-names: "Singh"
+    affiliation: "Department of Cognitive and Brain Sciences, IIT Gandhinagar"
+  - given-names: "Palika"
+    family-names: "Charitha"
+    affiliation: "Computational Neuroscience Lab, IIT Madras"
+  - given-names: "V. Srinivasa"
+    family-names: "Chakravarthy"
+    affiliation: "Computational Neuroscience Lab, IIT Madras"
+year: 2026
+license: MIT
+repository-code: "https://github.com/sanjanasinghx/Cric-RL-Sleep-Model"
