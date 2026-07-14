@@ -7,6 +7,7 @@ into group-level statistics, and renders publication-quality figures.
 
 from __future__ import annotations
 
+import argparse
 import json
 import subprocess
 import sys
@@ -302,11 +303,25 @@ def write_readme(summary: dict, rep_seed: int, path: Path) -> None:
     path.write_text("\n".join(lines))
 
 
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(
+        description="Multi-seed sweep for the sleep-as-optimal-policy experiment.")
+    p.add_argument("--seeds", type=int, nargs="+", default=SEEDS,
+                   help="Seeds to train. Default is the paper sweep: 1 2 3 5 42.")
+    p.add_argument("--steps", type=int, default=Config().total_env_steps,
+                   help="Environment steps per seed. Default is the paper budget: 600000.")
+    return p.parse_args()
+
+
 def main() -> None:
-    cfg = Config()
+    global SEEDS
+    args = parse_args()
+    SEEDS = list(args.seeds)
+    cfg = replace(Config(), total_env_steps=args.steps)
     for d in (RESULTS, MODELS, FIGURES):
         d.mkdir(parents=True, exist_ok=True)
     print(f"Results folder: {RESULTS}", flush=True)
+    print(f"Seeds: {SEEDS}. Steps per seed: {cfg.total_env_steps:,}.", flush=True)
 
     results = [run_one_seed(s, cfg, MODELS) for s in SEEDS]
     per_seed = [r["metrics"] for r in results]

@@ -18,7 +18,7 @@ Pinned dependencies are torch 2.12.0, numpy 1.26.4, matplotlib 3.9.2, pandas 2.2
 
 ## 3. Reproduce
 
-Run the full five seed sweep. This trains one agent per seed for seeds 1, 2, 3, 5, and 42, at 600,000 environment steps each, aggregates the statistics, and renders the three figures.
+All defaults reproduce the paper exactly. The full five seed sweep trains one agent per seed for seeds 1, 2, 3, 5, and 42, at 600,000 environment steps each, aggregates the statistics, and renders the three figures.
 
 ```
 python run_sweep.py
@@ -29,6 +29,38 @@ Expected wall time is about 5,512 seconds in total across the five seeds, measur
 - `results/metrics_aggregated.json`, `results/all_seeds_training_log.csv`, `results/learning_curve_aggregate.csv`, `results/README.md`
 - `models/model_seed{1,2,3,5,42}.pt`
 - `figures/learning_curve.png`, `figures/policy_map.png`, `figures/hypnogram.png`
+
+The seed list and step budget are exposed as flags whose defaults are exactly the paper values, so `python run_sweep.py` and `python run_sweep.py --seeds 1 2 3 5 42 --steps 600000` are equivalent. For a fast end to end check, which overwrites the released artifacts in this checkout, use a copy of the repository and run two short seeds:
+
+```
+python run_sweep.py --seeds 1 2 --steps 20000
+```
+
+### What each paper artifact maps to
+
+| Paper artifact | Command |
+| --- | --- |
+| Table 1, parameters | Read directly from the `Config` dataclass in `environment.py`. No run needed. |
+| Table 2, scripted baselines | The snippet below, a single deterministic run at seed 0. |
+| Table 3, per seed sweep | `python verify_tables.py` prints it from the committed results. `python run_sweep.py` regenerates the underlying data. |
+| Figure 1, learning curve | `python run_sweep.py` writes `figures/learning_curve.png`. |
+| Figure 2, policy map | `python run_sweep.py` writes `figures/policy_map.png`. |
+| Figure 3, hypnogram | `python run_sweep.py` writes `figures/hypnogram.png`. |
+
+Scripted baselines of Table 2, reproduced from the committed environment:
+
+```
+python - <<'PY'
+from environment import Config, AWAKE, NREM, REM
+from run_experiment import rollout
+cfg = Config()
+for name, act in (("AWAKE", AWAKE), ("REM", REM), ("NREM", NREM)):
+    t = rollout(cfg, (lambda a: (lambda o, i: a))(act), seed=0)
+    print(f"pure {name}: {len(t.actions)} steps, {t.terminal_cause}, return {t.ret:.2f}")
+PY
+```
+
+This prints pure REM dying on energy at step 50 with return about -120, pure NREM surviving all 300 steps with return about -152, and pure AWAKE dying of overload at step 12. The pure wake baseline of -97.63 in Table 2 is the group mean measured once per seed across the sweep, recorded in `results/metrics_aggregated.json`.
 
 To check the committed results against paper Table 3 without retraining:
 
