@@ -34,3 +34,6 @@ logs/
 !models/
 !models/*.pt
 artifacts/
+
+# Working notes
+tasks/
