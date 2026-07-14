@@ -22,9 +22,7 @@ Uncertainty is mean +/- sample standard deviation across seeds.
 - `metrics_aggregated.json`: per-seed and group-level statistics.
 - `all_seeds_training_log.csv`: full per-episode training history, all seeds.
 - `learning_curve_aggregate.csv`: mean and SD return on a common step grid.
+- `models/`: one trained checkpoint per seed.
 - `figures/`: learning curve, policy map, hypnogram at 600 DPI.
-
-Trained checkpoints are not tracked in the repository; regenerate them with
-`python run_sweep.py`.
 
 Policy map and hypnogram are rendered from the representative seed 5 (closest tail-mean return to the group mean).
