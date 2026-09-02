@@ -1,0 +1,26 @@
+{
+  "seeds": [
+    4
+  ],
+  "total_env_steps": 600000,
+  "per_seed": [
+    {
+      "seed": 4,
+      "baseline_pure_awake_return": -97.688,
+      "trained_eval_return": -99.05,
+      "trained_eval_length": 60,
+      "trained_eval_terminal_cause": "energy",
+      "tail_mean_return": -80.204,
+      "trained_action_counts": {
+        "AWAKE": 37,
+        "NREM": 12,
+        "REM": 11
+      },
+      "mean_overload": 0.562,
+      "mean_recall": 0.985,
+      "episodes_trained": 8686,
+      "wall_time_seconds": 1036.4,
+      "trained_policy_cycles_passed": false
+    }
+  ]
+}
